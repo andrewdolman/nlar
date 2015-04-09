@@ -1,11 +1,6 @@
 ## Test importing .csv files from NLA2007
 library(stringr)
 library(plyr)
-#library(readr)
-
-# folder_names <- dir("inst/extdata/nla2007/")
-# 
-# clean_names <- str_replace_all(folder_names, " ", "_")
 
 paths <- list.dirs("inst/extdata/nla2007/")
 
@@ -23,26 +18,13 @@ txt_nms <- basename(txt_files)
 txt_nms <- str_replace_all(txt_nms, ".txt", "")
 names(lst_meta) <- txt_nms
 
-llply(lst_meta, function(x) x$LABEL)
-
 save(list=names(lst), file = paste0("data/", "NLA2007_imported_csv_files", ".Rdata"), envir=as.environment(lst))
 save(list="lst", file = paste0("data/", "NLA2007_imported_csv_files_as_list", ".Rdata"))
 
-#load("data/test2.Rdata")
 
+## Try to add the LABEL column from the text files as attributes to the appropriate columns in the appropriate dataframes.
+# Problem is that there are more dataframes than text files
 
-
-
-tmp <- read.csv("inst/extdata/nla2007/Information for Lakes that were Sampled/LakeInformation_sampled_20091113.csv", as.is = TRUE)
-tmp_meta <- read.csv("inst/extdata/nla2007/Information for Lakes that were Sampled/LakesInformation_Sampled_info_20091113.txt", as.is = TRUE, sep="\t")
-tmp_meta$LABEL
-
-attr(tmp, "LABEL") <- tmp_meta$LABEL
-  
-tmp2 <- lapply(names(tmp), function(x) attr(tmp[,x], "LABEL") <- "test")
-
-attributes(tmp)
-
-
+llply(lst_meta, function(x) x$LABEL)
 
 
