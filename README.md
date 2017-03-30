@@ -12,6 +12,12 @@ of dedicated field crews, laboratory staff, data management and quality control 
 analysts and many others from EPA, states, tribes, federal agencies, universities, 
 and other organizations. Please contact nars-hq@epa.gov with any questions.
 
+## Installation
+
+This package can be installed using:
+
+devtools(install_github("andrewdolman/nlar"))
+
 
 ## Structure
 
