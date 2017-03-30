@@ -1,0 +1,12 @@
+Package: nlar
+Title: Data from the National Lakes Assessment 2007 as an R package
+Version: 0.2
+Authors@R: person("Andrew", "Dolman", email = "andydolman@gmail.com", role = c("aut", "cre"))
+Description: Data from the National Lakes Assessment 2007 as an R package.
+    https://www.epa.gov/national-aquatic-resource-surveys/nla
+Depends:
+    R (>= 3.0.2)
+License: MIT + LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 5.0.1

@@ -1,2 +1,2 @@
 # nlar
-Data from the National Lakes Assessment as an R package
+Data from the National Lakes Assessment 2007 as an R package
