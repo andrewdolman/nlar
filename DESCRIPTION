@@ -3,7 +3,13 @@ Title: Data from the National Lakes Assessment 2007 as an R package
 Version: 0.2
 Authors@R: person("Andrew", "Dolman", email = "andydolman@gmail.com", role = c("aut", "cre"))
 Description: Data from the National Lakes Assessment 2007 as an R package.
-    https://www.epa.gov/national-aquatic-resource-surveys/nla
+  U.S. Environmental Protection Agency. 2010. National Aquatic Resource Surveys. 
+  National Lakes Assessment 2007 (data and metadata files). 
+  Available from U.S. EPA website: http://www.epa.gov/national-aquatic-resource-surveys/data-national-aquatic-resource-surveys. 
+  The National Lakes Assessment 2007 data were a result of the collective efforts 
+  of dedicated field crews, laboratory staff, data management and quality control staff, 
+  analysts and many others from EPA, states, tribes, federal agencies, universities, 
+  and other organizations. Please contact nars-hq@epa.gov with any questions.
 Depends:
     R (>= 3.0.2)
 License: MIT + LICENSE

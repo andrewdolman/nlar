@@ -21,6 +21,8 @@ names(lst_meta) <- txt_nms
 #save(list=names(lst), file = paste0("data/", "NLA2007_imported_csv_files", ".Rdata"), envir=as.environment(lst))
 #save(list="lst", file = paste0("data/", "NLA2007_imported_csv_files_as_list", ".Rdata"))
 
+lst <- lapply(lst, tbl_df)
+lst_meta <- lapply(lst_meta, tbl_df)
 list2env(lst, envir=.GlobalEnv)
 
 devtools::use_data(`NLA2007_Basin_Landuse_Metrics_20061022`, `NLA2007_Buffer_Landuse_Metrics_20091022`, 
@@ -38,15 +40,33 @@ devtools::use_data(`NLA2007_Basin_Landuse_Metrics_20061022`, `NLA2007_Buffer_Lan
                    `NLA2007_SedimentDiatoms_SampleInformation_20091102`, `NLA2007_SedimentDiatoms_Top&Bottom_InferenceModel_Data_20091103`, 
                    `NLA2007_Trophic_ConditionEstimate_20091123`, `NLA2007_VisualAssessment_20091015`, 
                    `NLA2007_WaterQuality_20091123`, `NLA2007_Zooplankton_Count_20091022`, 
-                   `NLA2007_Zooplankton_SampleInformation_20091020`, overwrite = T)
+                   `NLA2007_Zooplankton_SampleInformation_20091020`, overwrite = TRUE)
 
-nla_2007_key <- plyr::ldply(lst_meta, function(x) data.frame(NAME = x$NAME, LABEL = x$LABEL), .id = "SHEET") %>% 
+NLA2007_KEY <- plyr::ldply(lst_meta, function(x) data.frame(NAME = x$NAME, LABEL = x$LABEL,
+                                                            stringsAsFactors = FALSE), .id = "SHEET") %>% 
   dplyr::tbl_df() %>% 
   group_by(NAME) %>% 
   select(NAME, SHEET, LABEL) %>% 
-  arrange(NAME, SHEET, LABEL)
+  arrange(NAME, SHEET, LABEL) %>% 
+  mutate(SHEET = as.character(SHEET))
 
-devtools::use_data(nla_2007_key)
+devtools::use_data(NLA2007_KEY)
 
 
+## Create slimmed down data set
 
+NLA2007_SELECTED_VARS <- NLA2007_Chemical_ConditionEstimates_20091123 %>% 
+  select(SITE_ID, VISIT_NO, SITE_TYPE, LAT_DD, LON_DD, ST, EPA_REG, URBAN,
+         WSA_ECO3, WSA_ECO9, NUTREG_NAME, LAKE_ORIGIN, PTL, NTL, DOC, CHLA) %>% 
+  left_join(NLA2007_SampledLakeInformation_20091113 %>% 
+              select(SITE_ID, LAKEAREA, DEPTH_X))
+
+NLA2007_SELECTED_VARS_KEY <- NLA2007_KEY %>% 
+  filter(NAME %in% names(NLA2007_SELECTED_VARS),
+         SHEET %in% c("NLA2007_Chemical_ConditionEstimates_Info_20091123",
+                      "NLA2007_SampledLakeInformation_Info_20091113")) %>% 
+  select(-SHEET) %>% 
+  group_by(NAME) %>% 
+  slice(1L)
+
+devtools::use_data(NLA2007_SELECTED_VARS, NLA2007_SELECTED_VARS_KEY, overwrite  = TRUE)
